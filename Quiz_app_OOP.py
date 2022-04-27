@@ -19,14 +19,14 @@ class Play:
     # q_list is the list of all the question classes in a list.
 
     def endquiz(self):
-        return self.question_number < len(self.list) and self.playing
+        return self.question_number < len(self.list) #and self.playing
     # checks if player guessed a question incorrectly or has reached the end of the quiz.
 
     def end(self):
         if self.correct == len(self.list):
-            print(f"Congratulations, you've won! You've answered all {len(self.list)} questions correctly !")
+            print(f"Congratulations, You've answered all {len(self.list)} questions correctly !")
         else:
-            print(f"Game over, you lost! , you've got {self.correct} out of {len(self.list)} questions right!")
+            print(f"Quiz over, you've got {self.correct} out of {len(self.list)} questions right!")
     # checks if the player got all the questions right else it prints out "youve lost " message
 
     def nextquestion(self):
@@ -35,14 +35,21 @@ class Play:
         # displays current question based on the self.question_number (begins at 0 by default)
         self.question_number += 1
         # moves to the next question
-        if input(f" Question {self.question_number} : "
-                 f"{current_question.text} (True)/(False)\n").capitalize() == current_question.answer:
-            print("Correct")
+        user_answer= input(f"Question {self.question_number} : {current_question.text} (True/False)")
+        self.checkanswer(user_answer, current_question.answer)
+
+
+
+        # if incorrect, playing = False will return "False" at endquiz(self) thus ending the game
+
+
+    def checkanswer(self, user_answer, question_answer):
+        if user_answer.lower() == question_answer.lower():
             self.correct += 1
-            # marks all correct answers for later
+            print("Correct!")
         else:
-            self.playing = False
-            # if incorrect, playing = False will return "False" at endquiz(self) thus ending the game
+            print("Incorrect!")
+
 
 
 question_data = [
@@ -70,8 +77,6 @@ for question in question_data:
     bank.append(new_question)
     # To display all the answers write bank[question index].display()
 
-print(bank[1].display())
-
 
 quiz = Play(bank)
 
@@ -79,4 +84,3 @@ while quiz.endquiz():
     quiz.nextquestion()
 quiz.end()
 
-print(bank[7].display())
